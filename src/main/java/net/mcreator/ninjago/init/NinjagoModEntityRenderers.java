@@ -21,5 +21,6 @@ public class NinjagoModEntityRenderers {
 		event.registerEntityRenderer(NinjagoModEntities.OVERLORD.get(), OverlordRenderer::new);
 		event.registerEntityRenderer(NinjagoModEntities.GARMADON.get(), GarmadonRenderer::new);
 		event.registerEntityRenderer(NinjagoModEntities.SHURIKEN.get(), ThrownItemRenderer::new);
+		event.registerEntityRenderer(NinjagoModEntities.HOOKSHOT.get(), ThrownItemRenderer::new);
 	}
 }

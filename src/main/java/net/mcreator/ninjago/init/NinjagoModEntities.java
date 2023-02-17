@@ -18,6 +18,7 @@ import net.minecraft.world.entity.Entity;
 
 import net.mcreator.ninjago.entity.ShurikenEntity;
 import net.mcreator.ninjago.entity.OverlordEntity;
+import net.mcreator.ninjago.entity.HookshotEntity;
 import net.mcreator.ninjago.entity.GarmadonEntity;
 import net.mcreator.ninjago.NinjagoMod;
 
@@ -36,6 +37,9 @@ public class NinjagoModEntities {
 					.sized(0.6f, 1.8f));
 	public static final RegistryObject<EntityType<ShurikenEntity>> SHURIKEN = register("projectile_shuriken",
 			EntityType.Builder.<ShurikenEntity>of(ShurikenEntity::new, MobCategory.MISC).setCustomClientFactory(ShurikenEntity::new)
+					.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
+	public static final RegistryObject<EntityType<HookshotEntity>> HOOKSHOT = register("projectile_hookshot",
+			EntityType.Builder.<HookshotEntity>of(HookshotEntity::new, MobCategory.MISC).setCustomClientFactory(HookshotEntity::new)
 					.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
 
 	private static <T extends Entity> RegistryObject<EntityType<T>> register(String registryname, EntityType.Builder<T> entityTypeBuilder) {
