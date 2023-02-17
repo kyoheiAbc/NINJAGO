@@ -9,6 +9,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.api.distmarker.Dist;
 
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+
 import net.mcreator.ninjago.client.renderer.OverlordRenderer;
 import net.mcreator.ninjago.client.renderer.GarmadonRenderer;
 
@@ -18,5 +20,6 @@ public class NinjagoModEntityRenderers {
 	public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(NinjagoModEntities.OVERLORD.get(), OverlordRenderer::new);
 		event.registerEntityRenderer(NinjagoModEntities.GARMADON.get(), GarmadonRenderer::new);
+		event.registerEntityRenderer(NinjagoModEntities.SHURIKEN.get(), ThrownItemRenderer::new);
 	}
 }
