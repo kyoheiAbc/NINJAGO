@@ -1,4 +1,6 @@
 {
   "item.ninjago.overlord_spawn_egg": "Overlord Spawn Egg",
-  "entity.ninjago.overlord": "Overlord"
+  "item.ninjago.garmadon_spawn_egg": "Garmadon Spawn Egg",
+  "entity.ninjago.overlord": "Overlord",
+  "entity.ninjago.garmadon": "Garmadon"
 }

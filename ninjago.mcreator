@@ -7,6 +7,14 @@
       "compiles": true,
       "locked_code": false,
       "registry_name": "overlord"
+    },
+    {
+      "name": "Garmadon",
+      "type": "livingentity",
+      "sortid": 2,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "garmadon"
     }
   ],
   "variable_elements": [],
@@ -14,7 +22,9 @@
   "language_map": {
     "en_us": {
       "item.ninjago.overlord_spawn_egg": "Overlord Spawn Egg",
-      "entity.ninjago.overlord": "Overlord"
+      "item.ninjago.garmadon_spawn_egg": "Garmadon Spawn Egg",
+      "entity.ninjago.overlord": "Overlord",
+      "entity.ninjago.garmadon": "Garmadon"
     }
   },
   "foldersRoot": {

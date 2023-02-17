@@ -17,6 +17,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Entity;
 
 import net.mcreator.ninjago.entity.OverlordEntity;
+import net.mcreator.ninjago.entity.GarmadonEntity;
 import net.mcreator.ninjago.NinjagoMod;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -25,6 +26,11 @@ public class NinjagoModEntities {
 	public static final RegistryObject<EntityType<OverlordEntity>> OVERLORD = register("overlord",
 			EntityType.Builder.<OverlordEntity>of(OverlordEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64)
 					.setUpdateInterval(3).setCustomClientFactory(OverlordEntity::new)
+
+					.sized(0.6f, 1.8f));
+	public static final RegistryObject<EntityType<GarmadonEntity>> GARMADON = register("garmadon",
+			EntityType.Builder.<GarmadonEntity>of(GarmadonEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64)
+					.setUpdateInterval(3).setCustomClientFactory(GarmadonEntity::new)
 
 					.sized(0.6f, 1.8f));
 
@@ -36,11 +42,13 @@ public class NinjagoModEntities {
 	public static void init(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
 			OverlordEntity.init();
+			GarmadonEntity.init();
 		});
 	}
 
 	@SubscribeEvent
 	public static void registerAttributes(EntityAttributeCreationEvent event) {
 		event.put(OVERLORD.get(), OverlordEntity.createAttributes().build());
+		event.put(GARMADON.get(), GarmadonEntity.createAttributes().build());
 	}
 }

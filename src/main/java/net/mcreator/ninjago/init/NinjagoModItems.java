@@ -18,4 +18,6 @@ public class NinjagoModItems {
 	public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, NinjagoMod.MODID);
 	public static final RegistryObject<Item> OVERLORD = REGISTRY.register("overlord_spawn_egg",
 			() -> new ForgeSpawnEggItem(NinjagoModEntities.OVERLORD, -1, -1, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+	public static final RegistryObject<Item> GARMADON = REGISTRY.register("garmadon_spawn_egg",
+			() -> new ForgeSpawnEggItem(NinjagoModEntities.GARMADON, -1, -1, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
 }
