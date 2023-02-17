@@ -1,9 +1,21 @@
 {
-  "mod_elements": [],
+  "mod_elements": [
+    {
+      "name": "Overlord",
+      "type": "livingentity",
+      "sortid": 1,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "overlord"
+    }
+  ],
   "variable_elements": [],
   "sound_elements": [],
   "language_map": {
-    "en_us": {}
+    "en_us": {
+      "item.ninjago.overlord_spawn_egg": "Overlord Spawn Egg",
+      "entity.ninjago.overlord": "Overlord"
+    }
   },
   "foldersRoot": {
     "name": "~",
