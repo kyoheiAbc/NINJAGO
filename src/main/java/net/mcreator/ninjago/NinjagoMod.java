@@ -29,6 +29,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.FriendlyByteBuf;
 
+import net.mcreator.ninjago.init.NinjagoModParticleTypes;
 import net.mcreator.ninjago.init.NinjagoModItems;
 import net.mcreator.ninjago.init.NinjagoModEntities;
 
@@ -51,6 +52,8 @@ public class NinjagoMod {
 
 		NinjagoModItems.REGISTRY.register(bus);
 		NinjagoModEntities.REGISTRY.register(bus);
+
+		NinjagoModParticleTypes.REGISTRY.register(bus);
 
 	}
 

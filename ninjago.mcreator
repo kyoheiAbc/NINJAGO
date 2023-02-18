@@ -63,6 +63,14 @@
           }
         ]
       }
+    },
+    {
+      "name": "SweepAttack",
+      "type": "particle",
+      "sortid": 6,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "sweep_attack"
     }
   ],
   "variable_elements": [],
