@@ -89,16 +89,23 @@ public class OverlordEntity extends Monster {
 	}
 
 	@Override
+	public boolean hurt(DamageSource source, float amount) {
+		Jitzu.beamGo(this.level, this);
+		return super.hurt(source, amount);
+	}
+
+	@Override
 	public InteractionResult mobInteract(Player sourceentity, InteractionHand hand) {
 		InteractionResult retval = InteractionResult.sidedSuccess(this.level.isClientSide());
 		super.mobInteract(sourceentity, hand);
-		Jitzu.beamPre(this.level, this);
+		Jitzu.spinGo(this.level, this);
 		return retval;
 	}
 
 	@Override
 	public void baseTick() {
 		super.baseTick();
+		Jitzu.spin(level, this);
 		Jitzu.beam(level, this);
 	}
 

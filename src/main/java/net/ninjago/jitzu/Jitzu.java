@@ -33,9 +33,16 @@ public class Jitzu {
 
 		if (world instanceof ServerLevel _level) {
 			_level.sendParticles((SimpleParticleType) (NinjagoModParticleTypes.SWEEP_ATTACK.get()), (entity.getX()),
-					(entity.getY() + 0.25),
-					(entity.getZ()), 15, 0, 0.25, 0, 0);
+					(entity.getY() + 0.5),
+					(entity.getZ()), 20, 0, 0.5, 0, 0);
 		}
+	}
+
+	public static void spinGo(LevelAccessor world, Entity entity) {
+		if (entity == null)
+			return;
+		entity.setDeltaMovement(new Vec3(1.5 * (entity.getLookAngle().x), 0.1, 1.5 * (entity.getLookAngle().z)));
+		entity.getPersistentData().putDouble("spin", 15);
 	}
 
 	public static void beam(LevelAccessor world, Entity entity) {
@@ -65,7 +72,7 @@ public class Jitzu {
 		}
 	}
 
-	public static void beamPre(LevelAccessor world, Entity entity) {
+	public static void beamGo(LevelAccessor world, Entity entity) {
 		if (entity == null)
 			return;
 		entity.setDeltaMovement(new Vec3(-1.5 * (entity.getLookAngle().x), 0.5, -1.5 * (entity.getLookAngle().z)));
