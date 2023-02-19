@@ -15,8 +15,7 @@ public class ninjago {
     }
 
     @SubscribeEvent
-    public static void init(FMLCommonSetupEvent event) {
+    public static void FMLCommonSetupEvent(FMLCommonSetupEvent e) {
         new net.ninjago.playerMoel.event();
     }
-
 }

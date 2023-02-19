@@ -14,9 +14,9 @@ import net.minecraft.client.player.AbstractClientPlayer;
 
 public class model extends HumanoidModel<AbstractClientPlayer> {
 
-        public static LayerDefinition LayerDefinitionCreate() {
-                CubeDeformation cube = CubeDeformation.NONE;
-                MeshDefinition meshdefinition = HumanoidModel.createMesh(cube, 0.3F);
+        public static LayerDefinition layerDefinition() {
+                CubeDeformation cubeDeformation = CubeDeformation.NONE;
+                MeshDefinition meshdefinition = HumanoidModel.createMesh(cubeDeformation, 0.3F);
                 PartDefinition partdefinition = meshdefinition.getRoot();
 
                 partdefinition.addOrReplaceChild("cloak",
@@ -35,14 +35,14 @@ public class model extends HumanoidModel<AbstractClientPlayer> {
         }
 
         @Override
-        public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay,
+        public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int p_102036_, int p_102037_,
                         float red, float green, float blue, float alpha) {
-                head.render(poseStack, buffer, packedLight, packedOverlay);
-                leftLeg.render(poseStack, buffer, packedLight, packedOverlay);
-                rightLeg.render(poseStack, buffer, packedLight, packedOverlay);
-                leftArm.render(poseStack, buffer, packedLight, packedOverlay);
-                rightArm.render(poseStack, buffer, packedLight, packedOverlay);
-                body.render(poseStack, buffer, packedLight, packedOverlay);
-                cloak.render(poseStack, buffer, packedLight, packedOverlay);
+                head.render(poseStack, vertexConsumer, p_102036_, p_102037_);
+                leftLeg.render(poseStack, vertexConsumer, p_102036_, p_102037_);
+                rightLeg.render(poseStack, vertexConsumer, p_102036_, p_102037_);
+                leftArm.render(poseStack, vertexConsumer, p_102036_, p_102037_);
+                rightArm.render(poseStack, vertexConsumer, p_102036_, p_102037_);
+                body.render(poseStack, vertexConsumer, p_102036_, p_102037_);
+                cloak.render(poseStack, vertexConsumer, p_102036_, p_102037_);
         }
 }
