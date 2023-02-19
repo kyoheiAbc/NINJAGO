@@ -25,7 +25,8 @@ public class SweepAttackParticle extends TextureSheetParticle {
 			this.spriteSet = spriteSet;
 		}
 
-		public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed,
+		public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z,
+				double xSpeed, double ySpeed,
 				double zSpeed) {
 			return new SweepAttackParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
 		}
@@ -33,18 +34,20 @@ public class SweepAttackParticle extends TextureSheetParticle {
 
 	private final SpriteSet spriteSet;
 
-	protected SweepAttackParticle(ClientLevel world, double x, double y, double z, double vx, double vy, double vz, SpriteSet spriteSet) {
+	protected SweepAttackParticle(ClientLevel world, double x, double y, double z, double vx, double vy, double vz,
+			SpriteSet spriteSet) {
 		super(world, x, y, z);
 		this.spriteSet = spriteSet;
 		this.setSize(0.2f, 0.2f);
-		this.quadSize *= 4f;
+		this.quadSize *= 8f;
 		this.lifetime = 7;
 		this.gravity = 0f;
-		this.hasPhysics = true;
+		this.hasPhysics = false;
 		this.xd = vx * 1;
 		this.yd = vy * 1;
 		this.zd = vz * 1;
 		this.setSpriteFromAge(spriteSet);
+		this.setColor(0.1F, 0.9F, 0.1F);
 	}
 
 	@Override
