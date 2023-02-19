@@ -16,6 +16,15 @@ public class ninjago {
 
     @SubscribeEvent
     public static void FMLCommonSetupEvent(FMLCommonSetupEvent e) {
+        new ninjago();
         new net.ninjago.playerMoel.event();
+    }
+
+    @SubscribeEvent
+    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            Jitzu.spin(event.player.level, event.player);
+            Jitzu.beam(event.player.level, event.player);
+        }
     }
 }
