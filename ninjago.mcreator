@@ -17,96 +17,12 @@
       "registry_name": "garmadon"
     },
     {
-      "name": "Shuriken",
-      "type": "rangeditem",
-      "sortid": 3,
-      "compiles": true,
-      "locked_code": false,
-      "registry_name": "shuriken"
-    },
-    {
-      "name": "Hookshot",
-      "type": "rangeditem",
-      "sortid": 4,
-      "compiles": true,
-      "locked_code": false,
-      "registry_name": "hookshot"
-    },
-    {
-      "name": "Teleport",
-      "type": "procedure",
-      "sortid": 5,
-      "compiles": true,
-      "locked_code": false,
-      "registry_name": "teleport",
-      "metadata": {
-        "dependencies": [
-          {
-            "name": "entity",
-            "type": "entity"
-          },
-          {
-            "name": "x",
-            "type": "number"
-          },
-          {
-            "name": "y",
-            "type": "number"
-          },
-          {
-            "name": "z",
-            "type": "number"
-          },
-          {
-            "name": "world",
-            "type": "world"
-          }
-        ]
-      }
-    },
-    {
       "name": "SweepAttack",
       "type": "particle",
       "sortid": 6,
       "compiles": true,
       "locked_code": false,
       "registry_name": "sweep_attack"
-    },
-    {
-      "name": "SpinJitzuGo",
-      "type": "procedure",
-      "sortid": 7,
-      "compiles": true,
-      "locked_code": false,
-      "registry_name": "spin_jitzu_go",
-      "metadata": {
-        "dependencies": [
-          {
-            "name": "entity",
-            "type": "entity"
-          }
-        ]
-      }
-    },
-    {
-      "name": "SpinJitzuIng",
-      "type": "procedure",
-      "sortid": 8,
-      "compiles": true,
-      "locked_code": false,
-      "registry_name": "spin_jitzu_ing",
-      "metadata": {
-        "dependencies": [
-          {
-            "name": "entity",
-            "type": "entity"
-          },
-          {
-            "name": "world",
-            "type": "world"
-          }
-        ]
-      }
     }
   ],
   "variable_elements": [],
@@ -115,9 +31,7 @@
     "en_us": {
       "item.ninjago.overlord_spawn_egg": "Overlord Spawn Egg",
       "item.ninjago.garmadon_spawn_egg": "Garmadon Spawn Egg",
-      "item.ninjago.shuriken": "Shuriken",
       "entity.ninjago.overlord": "Overlord",
-      "item.ninjago.hookshot": "Hookshot",
       "entity.ninjago.garmadon": "Garmadon"
     }
   },

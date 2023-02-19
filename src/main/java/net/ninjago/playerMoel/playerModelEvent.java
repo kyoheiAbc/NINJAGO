@@ -1,4 +1,4 @@
-package net.ninjago;
+package net.ninjago.playerMoel;
 
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraftforge.client.event.EntityRenderersEvent;

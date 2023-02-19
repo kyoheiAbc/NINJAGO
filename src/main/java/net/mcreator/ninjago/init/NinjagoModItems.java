@@ -12,8 +12,6 @@ import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 
-import net.mcreator.ninjago.item.ShurikenItem;
-import net.mcreator.ninjago.item.HookshotItem;
 import net.mcreator.ninjago.NinjagoMod;
 
 public class NinjagoModItems {
@@ -22,6 +20,4 @@ public class NinjagoModItems {
 			() -> new ForgeSpawnEggItem(NinjagoModEntities.OVERLORD, -1, -1, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
 	public static final RegistryObject<Item> GARMADON = REGISTRY.register("garmadon_spawn_egg",
 			() -> new ForgeSpawnEggItem(NinjagoModEntities.GARMADON, -1, -1, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
-	public static final RegistryObject<Item> SHURIKEN = REGISTRY.register("shuriken", () -> new ShurikenItem());
-	public static final RegistryObject<Item> HOOKSHOT = REGISTRY.register("hookshot", () -> new HookshotItem());
 }
