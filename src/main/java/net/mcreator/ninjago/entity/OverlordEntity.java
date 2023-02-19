@@ -2,6 +2,7 @@
 package net.mcreator.ninjago.entity;
 
 import net.minecraftforge.registries.ForgeRegistries;
+import net.ninjago.jitzu.Jitzu;
 import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.network.NetworkHooks;
 
@@ -9,6 +10,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
@@ -24,6 +26,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.Difficulty;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,7 +38,8 @@ import net.minecraft.network.protocol.Packet;
 import net.mcreator.ninjago.init.NinjagoModEntities;
 
 public class OverlordEntity extends Monster {
-	private final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), ServerBossEvent.BossBarColor.PINK,
+	private final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(),
+			ServerBossEvent.BossBarColor.PINK,
 			ServerBossEvent.BossBarOverlay.PROGRESS);
 
 	public OverlordEntity(PlayMessages.SpawnEntity packet, Level world) {
@@ -84,6 +89,20 @@ public class OverlordEntity extends Monster {
 	}
 
 	@Override
+	public InteractionResult mobInteract(Player sourceentity, InteractionHand hand) {
+		InteractionResult retval = InteractionResult.sidedSuccess(this.level.isClientSide());
+		super.mobInteract(sourceentity, hand);
+		Jitzu.beamPre(this.level, this);
+		return retval;
+	}
+
+	@Override
+	public void baseTick() {
+		super.baseTick();
+		Jitzu.beam(level, this);
+	}
+
+	@Override
 	public boolean canChangeDimensions() {
 		return false;
 	}
@@ -107,9 +126,11 @@ public class OverlordEntity extends Monster {
 	}
 
 	public static void init() {
-		SpawnPlacements.register(NinjagoModEntities.OVERLORD.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+		SpawnPlacements.register(NinjagoModEntities.OVERLORD.get(), SpawnPlacements.Type.ON_GROUND,
+				Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
 				(entityType, world, reason, pos, random) -> (world.getDifficulty() != Difficulty.PEACEFUL
-						&& Monster.isDarkEnoughToSpawn(world, pos, random) && Mob.checkMobSpawnRules(entityType, world, reason, pos, random)));
+						&& Monster.isDarkEnoughToSpawn(world, pos, random)
+						&& Mob.checkMobSpawnRules(entityType, world, reason, pos, random)));
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {

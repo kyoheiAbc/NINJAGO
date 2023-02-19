@@ -1,16 +1,22 @@
 package net.ninjago.jitzu;
 
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.mcreator.ninjago.NinjagoMod;
 import net.mcreator.ninjago.init.NinjagoModParticleTypes;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
-import javax.annotation.Nullable;
+
+// @Override
+// public void baseTick() {
+// 	super.baseTick();
+// 	Jitzu.spin(level, this);
+// }
 
 public class Jitzu {
 
@@ -32,7 +38,7 @@ public class Jitzu {
 		}
 	}
 
-	public static void beam(@Nullable Event e, LevelAccessor world, Entity entity) {
+	public static void beam(LevelAccessor world, Entity entity) {
 		if (entity == null)
 			return;
 
@@ -51,11 +57,21 @@ public class Jitzu {
 
 		AABB bb = new AABB(x, y, z, 0, 0, 0);
 
-		for (LivingEntity le : world.getEntitiesOfClass(LivingEntity.class, bb.inflate(0.5D))) {
+		for (Entity le : world.getEntitiesOfClass(Entity.class, bb.inflate(0.5D))) {
 			if (le == entity)
 				continue;
+			le.setRemainingFireTicks(30);
 			le.hurt(DamageSource.sonicBoom(entity), 10);
 		}
+	}
+
+	public static void beamPre(LevelAccessor world, Entity entity) {
+		if (entity == null)
+			return;
+		entity.setDeltaMovement(new Vec3(-1.5 * (entity.getLookAngle().x), 0.5, -1.5 * (entity.getLookAngle().z)));
+		NinjagoMod.queueServerWork(15, () -> {
+			entity.getPersistentData().putDouble("beam", 20);
+		});
 	}
 
 }
