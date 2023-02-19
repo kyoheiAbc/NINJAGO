@@ -32,7 +32,7 @@ public class Jitzu {
 		}
 	}
 
-	public static void beam(@Nullable Event event, LevelAccessor world, Entity entity) {
+	public static void beam(@Nullable Event e, LevelAccessor world, Entity entity) {
 		if (entity == null)
 			return;
 

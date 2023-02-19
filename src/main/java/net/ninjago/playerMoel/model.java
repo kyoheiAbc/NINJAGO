@@ -9,17 +9,14 @@ import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.player.AbstractClientPlayer;
 
 public class model extends HumanoidModel<AbstractClientPlayer> {
 
         public static LayerDefinition layerDefinition() {
-                CubeDeformation cubeDeformation = CubeDeformation.NONE;
-                MeshDefinition meshdefinition = HumanoidModel.createMesh(cubeDeformation, 0.3F);
-                PartDefinition partdefinition = meshdefinition.getRoot();
+                MeshDefinition meshdefinition = HumanoidModel.createMesh(CubeDeformation.NONE, 0.3F);
 
-                partdefinition.addOrReplaceChild("cloak",
+                meshdefinition.getRoot().addOrReplaceChild("cloak",
                                 CubeListBuilder.create().texOffs(0, 0).addBox(-8F, 0F, 4F,
                                                 16.0F, 24.0F, 2.0F),
                                 PartPose.ZERO);

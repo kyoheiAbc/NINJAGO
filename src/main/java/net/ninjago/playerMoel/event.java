@@ -4,11 +4,8 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class event {
@@ -18,35 +15,19 @@ public class event {
     }
 
     @SubscribeEvent
-    public static void init(FMLCommonSetupEvent event) {
-        new event();
+    public void renderPlayerEventPre(RenderPlayerEvent.Pre e) {
+        e.getRenderer().getModel().setAllVisible(false);
+        // e.getPoseStack().pushPose();
+        // e.getPoseStack().scale(2.0f, 2.0f, 2.0f);
     }
 
     @SubscribeEvent
-    public void onRenderPlayerPre(RenderPlayerEvent.Pre event) {
-        event.getRenderer().getModel().setAllVisible(false);
-        // event.getPoseStack().pushPose();
-        // event.getPoseStack().scale(2.0f, 2.0f, 2.0f);
+    public void renderPlayerEventPost(RenderPlayerEvent.Post e) {
+        // e.getPoseStack().popPose();
     }
 
     @SubscribeEvent
-    public void onRenderPlayerPost(RenderPlayerEvent.Post event) {
-        // event.getPoseStack().popPose();
-    }
-
-    @Mod.EventBusSubscriber
-    private static class ForgeBusEvents {
-        @SubscribeEvent
-        public static void serverLoad(ServerStartingEvent event) {
-        }
-
-        @SubscribeEvent
-        public static void clientLoad(FMLClientSetupEvent event) {
-        }
-    }
-
-    @SubscribeEvent
-    public static void addLayers(EntityRenderersEvent.AddLayers e) {
+    public static void entityRenderersEventAddLayers(EntityRenderersEvent.AddLayers e) {
         LivingEntityRenderer livingEntityRenderer;
 
         livingEntityRenderer = (LivingEntityRenderer) e.getSkin("default");
