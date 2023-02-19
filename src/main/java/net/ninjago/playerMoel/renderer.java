@@ -14,14 +14,14 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class playerModelRenderer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
+public class renderer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
-    public playerModel playerModel;
+    public model playerModel;
 
-    public playerModelRenderer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer) {
+    public renderer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer) {
 
         super(renderer);
-        playerModel = new playerModel(playerModel.LayerDefinitionCreate().bakeRoot());
+        playerModel = new model(playerModel.LayerDefinitionCreate().bakeRoot());
     }
 
     @Override

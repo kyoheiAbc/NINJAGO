@@ -11,15 +11,15 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class playerModelEvent {
+public class event {
 
-    public playerModelEvent() {
+    public event() {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent
     public static void init(FMLCommonSetupEvent event) {
-        new playerModelEvent();
+        new event();
     }
 
     @SubscribeEvent
@@ -50,9 +50,9 @@ public class playerModelEvent {
         LivingEntityRenderer livingEntityRenderer;
 
         livingEntityRenderer = (LivingEntityRenderer) e.getSkin("default");
-        livingEntityRenderer.addLayer(new playerModelRenderer(livingEntityRenderer));
+        livingEntityRenderer.addLayer(new renderer(livingEntityRenderer));
 
         livingEntityRenderer = (LivingEntityRenderer) e.getSkin("slim");
-        livingEntityRenderer.addLayer(new playerModelRenderer(livingEntityRenderer));
+        livingEntityRenderer.addLayer(new renderer(livingEntityRenderer));
     }
 }

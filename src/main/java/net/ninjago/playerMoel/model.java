@@ -12,7 +12,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.player.AbstractClientPlayer;
 
-public class playerModel extends HumanoidModel<AbstractClientPlayer> {
+public class model extends HumanoidModel<AbstractClientPlayer> {
 
         public static LayerDefinition LayerDefinitionCreate() {
                 CubeDeformation cube = CubeDeformation.NONE;
@@ -29,7 +29,7 @@ public class playerModel extends HumanoidModel<AbstractClientPlayer> {
 
         public final ModelPart cloak;
 
-        public playerModel(ModelPart p_170821_) {
+        public model(ModelPart p_170821_) {
                 super(p_170821_);
                 this.cloak = p_170821_.getChild("cloak");
         }
