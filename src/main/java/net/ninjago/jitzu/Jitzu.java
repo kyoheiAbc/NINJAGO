@@ -1,84 +1,69 @@
 package net.ninjago.jitzu;
 
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.mcreator.ninjago.NinjagoMod;
 import net.mcreator.ninjago.init.NinjagoModParticleTypes;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 
-// @Override
-// public void baseTick() {
-// 	super.baseTick();
-// 	Jitzu.spin(level, this);
-// }
-
 public class Jitzu {
 
-	public static void spin(LevelAccessor world, Entity entity) {
-		if (entity == null)
-			return;
+	private int spin;
+	private int beam;
 
-		double spin = entity.getPersistentData().getDouble(("spin"));
+	public Jitzu() {
+		spin = 0;
+		beam = 0;
+	}
 
-		if (spin <= 0)
-			return;
+	public void tick(Entity e) {
+		if (e.getLevel() instanceof ServerLevel s) {
+			if (spin > 0) {
+				spin--;
+				s.sendParticles((SimpleParticleType) (NinjagoModParticleTypes.SWEEP_ATTACK.get()), (e.getX()),
+						(e.getY() + 0),
+						(e.getZ()), 3, 0, 1, 0, 0);
+			}
+			if (beam > 0) {
+				beam--;
+				if (beam > 15)
+					return;
+				double x = (e.getX() + e.getLookAngle().x * (15 - beam));
+				double y = (e.getY() + e.getEyeHeight());
+				double z = (e.getZ() + e.getLookAngle().z * (15 - beam));
 
-		entity.getPersistentData().putDouble("spin", spin - 1);
+				s.sendParticles(
+						ParticleTypes.SONIC_BOOM, x, y, z,
+						1, 0, 0, 0, 0);
 
-		if (world instanceof ServerLevel _level) {
-			_level.sendParticles((SimpleParticleType) (NinjagoModParticleTypes.SWEEP_ATTACK.get()), (entity.getX()),
-					(entity.getY() + 0.5),
-					(entity.getZ()), 20, 0, 0.5, 0, 0);
+				AABB bb = new AABB(x, y, z, 0, 0, 0);
+				bb = bb.inflate(0.5D);
+
+				for (LivingEntity le : s.getEntitiesOfClass(LivingEntity.class, bb)) {
+					if (le == e)
+						continue;
+					le.setRemainingFireTicks(20);
+					le.hurt(DamageSource.sonicBoom(e), 10);
+				}
+			}
 		}
 	}
 
-	public static void spinGo(LevelAccessor world, Entity entity) {
-		if (entity == null)
-			return;
-		entity.setDeltaMovement(new Vec3(1.5 * (entity.getLookAngle().x), 0.1, 1.5 * (entity.getLookAngle().z)));
-		entity.getPersistentData().putDouble("spin", 15);
-	}
-
-	public static void beam(LevelAccessor world, Entity entity) {
-		if (entity == null)
-			return;
-
-		double beam = entity.getPersistentData().getDouble(("beam"));
-
-		if (beam <= 0)
-			return;
-
-		entity.getPersistentData().putDouble("beam", beam - 1);
-
-		double x = (entity.getX() + entity.getLookAngle().x * (15 - beam));
-		double y = (entity.getY() + entity.getEyeHeight());
-		double z = (entity.getZ() + entity.getLookAngle().z * (15 - beam));
-
-		world.addParticle(ParticleTypes.SONIC_BOOM, x, y, z, 0, 0, 0);
-
-		AABB bb = new AABB(x, y, z, 0, 0, 0);
-
-		for (Entity le : world.getEntitiesOfClass(Entity.class, bb.inflate(0.5D))) {
-			if (le == entity)
-				continue;
-			le.setRemainingFireTicks(30);
-			le.hurt(DamageSource.sonicBoom(entity), 10);
+	public void spinGo(Entity e, int i) {
+		if (!(e.getLevel() instanceof ServerLevel)) {
+			e.setDeltaMovement(new Vec3(1.5 * (e.getLookAngle().x), 0.3, 1.5 * (e.getLookAngle().z)));
+			spin = i;
 		}
 	}
 
-	public static void beamGo(LevelAccessor world, Entity entity) {
-		if (entity == null)
-			return;
-		entity.setDeltaMovement(new Vec3(-1.5 * (entity.getLookAngle().x), 0.5, -1.5 * (entity.getLookAngle().z)));
-		NinjagoMod.queueServerWork(15, () -> {
-			entity.getPersistentData().putDouble("beam", 20);
-		});
+	public void beamGo(Entity e) {
+		if (!(e.getLevel() instanceof ServerLevel)) {
+			e.setDeltaMovement(new Vec3(-1.5 * (e.getLookAngle().x), 0.5, -1.5 * (e.getLookAngle().z)));
+			beam = 45;
+		}
 	}
-
 }

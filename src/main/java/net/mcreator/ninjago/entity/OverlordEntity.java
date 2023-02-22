@@ -5,7 +5,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.ninjago.jitzu.Jitzu;
 import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.network.NetworkHooks;
-
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.Items;
@@ -30,6 +29,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.Difficulty;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.resources.ResourceLocation;
@@ -42,6 +43,8 @@ public class OverlordEntity extends Monster {
 			ServerBossEvent.BossBarColor.PINK,
 			ServerBossEvent.BossBarOverlay.PROGRESS);
 
+	private Jitzu jitzu;
+
 	public OverlordEntity(PlayMessages.SpawnEntity packet, Level world) {
 		this(NinjagoModEntities.OVERLORD.get(), world);
 	}
@@ -51,6 +54,8 @@ public class OverlordEntity extends Monster {
 		xpReward = 0;
 		setNoAi(false);
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.DEBUG_STICK));
+
+		jitzu = new Jitzu();
 	}
 
 	@Override
@@ -90,7 +95,6 @@ public class OverlordEntity extends Monster {
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
-		Jitzu.beamGo(this.level, this);
 		return super.hurt(source, amount);
 	}
 
@@ -98,15 +102,16 @@ public class OverlordEntity extends Monster {
 	public InteractionResult mobInteract(Player sourceentity, InteractionHand hand) {
 		InteractionResult retval = InteractionResult.sidedSuccess(this.level.isClientSide());
 		super.mobInteract(sourceentity, hand);
-		Jitzu.spinGo(this.level, this);
+		jitzu.spinGo(this, 20);
 		return retval;
 	}
 
 	@Override
 	public void baseTick() {
 		super.baseTick();
-		Jitzu.spin(level, this);
-		Jitzu.beam(level, this);
+		if (Mth.nextInt(RandomSource.create(), 0, 200) == 0) {
+			jitzu.beamGo(this);
+		}
 	}
 
 	@Override
