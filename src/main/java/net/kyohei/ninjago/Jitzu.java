@@ -20,13 +20,8 @@ public class Jitzu {
             return;
         }
 
-        ServerLevel s = null;
-        if (e.level instanceof ServerLevel) {
-            s = (ServerLevel) e.level;
-        }
-
         if (cnt >= 100) {
-            if (cnt >= 150) {
+            if (cnt >= 140) {
                 cnt = -1;
                 return;
             }
@@ -35,18 +30,15 @@ public class Jitzu {
                 e.setDeltaMovement(new Vec3(-1 * (e.getLookAngle().x), 0.5, -1 * (e.getLookAngle().z)));
             }
 
-            if (cnt >= 135) {
-                if (s != null) {
-                    double x = (e.getX() + e.getLookAngle().x * (cnt - 135));
+            if (cnt >= 120) {
+                if (e.level instanceof ServerLevel s) {
+                    double x = (e.getX() + e.getLookAngle().x * (cnt - 120));
                     double y = (e.getY() + e.getEyeHeight());
-                    double z = (e.getZ() + e.getLookAngle().z * (cnt - 135));
+                    double z = (e.getZ() + e.getLookAngle().z * (cnt - 120));
 
-                    s.sendParticles(
-                            ParticleTypes.SONIC_BOOM, x, y, z,
-                            1, 0, 0, 0, 0);
+                    s.sendParticles(ParticleTypes.SONIC_BOOM, x, y, z, 1, 0, 0, 0, 0);
 
-                    AABB bb = new AABB(x, y, z, 0, 0, 0);
-                    bb = bb.inflate(0.25D);
+                    AABB bb = new AABB(x, y, z, 0, 0, 0).inflate(0D);
 
                     for (Entity e_ : s.getEntitiesOfClass(Entity.class, bb)) {
                         if (e_ == e)
@@ -59,7 +51,7 @@ public class Jitzu {
         }
 
         else if (cnt >= 0) {
-            if (cnt >= 30) {
+            if (cnt >= 20) {
                 cnt = -1;
                 return;
             }
@@ -68,13 +60,12 @@ public class Jitzu {
                 e.setDeltaMovement(new Vec3(1.5 * (e.getLookAngle().x), 0.3, 1.5 * (e.getLookAngle().z)));
             }
 
-            if (s != null) {
-                s.sendParticles(ParticleTypes.SWEEP_ATTACK, e.getX(), e.getY(), e.getZ(), 5, 0, 0.5, 0,
-                        0);
+            if (e.level instanceof ServerLevel s) {
+                s.sendParticles(ParticleTypes.SWEEP_ATTACK, e.getX(), e.getY(), e.getZ(), 5, 0, 0.5, 0, 0);
             }
         }
 
-        if (s != null) {
+        if (e.level instanceof ServerLevel s) {
             cnt++;
         }
     }

@@ -16,7 +16,9 @@ public class PlayerAction {
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent e) {
-        jitzu.tick(e.player);
+        if (e.phase == TickEvent.Phase.END) {
+            jitzu.tick(e.player);
+        }
     }
 
     @SubscribeEvent
