@@ -1,5 +1,6 @@
 package net.kyohei.ninjago;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,8 +20,21 @@ public class Jitzu {
         if (cnt == -1) {
             return;
         }
+        LogUtils.getLogger().debug(((Integer) cnt).toString());
 
-        if (cnt >= 100) {
+        if (cnt >= 200) {
+            if (cnt >= 203) {
+                cnt = -1;
+                return;
+            }
+            if (cnt == 201) {
+                if (!e.isOnGround()) {
+                    e.setDeltaMovement(0, -1000, 0);
+                }
+            }
+        }
+
+        else if (cnt >= 100) {
             if (cnt >= 140) {
                 cnt = -1;
                 return;
