@@ -1,9 +1,21 @@
 {
-  "mod_elements": [],
+  "mod_elements": [
+    {
+      "name": "Garmadon",
+      "type": "livingentity",
+      "sortid": 1,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "garmadon"
+    }
+  ],
   "variable_elements": [],
   "sound_elements": [],
   "language_map": {
-    "en_us": {}
+    "en_us": {
+      "item.ninjago.garmadon_spawn_egg": "Garmadon Spawn Egg",
+      "entity.ninjago.garmadon": "Garmadon"
+    }
   },
   "foldersRoot": {
     "name": "~",

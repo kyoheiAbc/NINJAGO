@@ -29,6 +29,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.FriendlyByteBuf;
 
+import net.mcreator.ninjago.init.NinjagoModItems;
+import net.mcreator.ninjago.init.NinjagoModEntities;
+
 import java.util.function.Supplier;
 import java.util.function.Function;
 import java.util.function.BiConsumer;
@@ -45,6 +48,9 @@ public class NinjagoMod {
 		MinecraftForge.EVENT_BUS.register(this);
 
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+		NinjagoModItems.REGISTRY.register(bus);
+		NinjagoModEntities.REGISTRY.register(bus);
 
 	}
 
