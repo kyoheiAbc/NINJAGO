@@ -17,6 +17,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Entity;
 
 import net.mcreator.ninjago.entity.GarmadonEntity;
+import net.mcreator.ninjago.entity.DragonEntity;
 import net.mcreator.ninjago.NinjagoMod;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -25,6 +26,11 @@ public class NinjagoModEntities {
 	public static final RegistryObject<EntityType<GarmadonEntity>> GARMADON = register("garmadon",
 			EntityType.Builder.<GarmadonEntity>of(GarmadonEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64)
 					.setUpdateInterval(3).setCustomClientFactory(GarmadonEntity::new)
+
+					.sized(0.6f, 1.8f));
+	public static final RegistryObject<EntityType<DragonEntity>> DRAGON = register("dragon",
+			EntityType.Builder.<DragonEntity>of(DragonEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64)
+					.setUpdateInterval(3).setCustomClientFactory(DragonEntity::new)
 
 					.sized(0.6f, 1.8f));
 
@@ -36,11 +42,13 @@ public class NinjagoModEntities {
 	public static void init(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
 			GarmadonEntity.init();
+			DragonEntity.init();
 		});
 	}
 
 	@SubscribeEvent
 	public static void registerAttributes(EntityAttributeCreationEvent event) {
 		event.put(GARMADON.get(), GarmadonEntity.createAttributes().build());
+		event.put(DRAGON.get(), DragonEntity.createAttributes().build());
 	}
 }
