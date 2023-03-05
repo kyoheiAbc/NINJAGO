@@ -20,9 +20,24 @@ public class Jitzu {
         if (cnt == -1) {
             return;
         }
-        LogUtils.getLogger().debug(((Integer) cnt).toString());
-
-        if (cnt >= 200) {
+        // LogUtils.getLogger().debug(((Integer) cnt).toString());
+        if (cnt == 300) {
+            Entity v = e.getVehicle();
+            if (v != null) {
+                v.setDeltaMovement(new Vec3(0.5 * (e.getLookAngle().x), 0.3, 0.5 * (e.getLookAngle().z)));
+                v.setYBodyRot(e.getYHeadRot());
+                v.setYRot(e.getYHeadRot());
+                v.setYHeadRot(e.getYHeadRot());
+            }
+        } else if (cnt == 400) {
+            Entity v = e.getVehicle();
+            if (v != null) {
+                v.setDeltaMovement(new Vec3(0.5 * (e.getLookAngle().x), -0.3, 0.5 * (e.getLookAngle().z)));
+                v.setYBodyRot(e.getYHeadRot());
+                v.setYRot(e.getYHeadRot());
+                v.setYHeadRot(e.getYHeadRot());
+            }
+        } else if (cnt >= 200) {
             if (cnt >= 203) {
                 cnt = -1;
                 return;
