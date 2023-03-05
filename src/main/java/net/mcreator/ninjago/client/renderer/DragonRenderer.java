@@ -2,23 +2,19 @@
 package net.mcreator.ninjago.client.renderer;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
-import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.model.HumanoidModel;
 
 import net.mcreator.ninjago.entity.DragonEntity;
+import net.mcreator.ninjago.client.model.Modelcustom_model;
 
-public class DragonRenderer extends HumanoidMobRenderer<DragonEntity, HumanoidModel<DragonEntity>> {
+public class DragonRenderer extends MobRenderer<DragonEntity, Modelcustom_model<DragonEntity>> {
 	public DragonRenderer(EntityRendererProvider.Context context) {
-		super(context, new HumanoidModel(context.bakeLayer(ModelLayers.PLAYER)), 0.5f);
-		this.addLayer(new HumanoidArmorLayer(this, new HumanoidModel(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
-				new HumanoidModel(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
+		super(context, new Modelcustom_model(context.bakeLayer(Modelcustom_model.LAYER_LOCATION)), 1f);
 	}
 
 	@Override
 	public ResourceLocation getTextureLocation(DragonEntity entity) {
-		return new ResourceLocation("ninjago:textures/entities/overlord.png");
+		return new ResourceLocation("ninjago:textures/entities/enderdragon.png");
 	}
 }

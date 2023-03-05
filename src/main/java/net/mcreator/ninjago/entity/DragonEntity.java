@@ -8,37 +8,43 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.util.RandomSource;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.core.BlockPos;
 
 import net.mcreator.ninjago.init.NinjagoModEntities;
 
+import java.util.EnumSet;
+
 public class DragonEntity extends Monster {
+	private final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), ServerBossEvent.BossBarColor.PINK,
+			ServerBossEvent.BossBarOverlay.PROGRESS);
+
 	public DragonEntity(PlayMessages.SpawnEntity packet, Level world) {
 		this(NinjagoModEntities.DRAGON.get(), world);
 	}
@@ -48,8 +54,6 @@ public class DragonEntity extends Monster {
 		xpReward = 0;
 		setNoAi(false);
 		setPersistenceRequired();
-		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
-		this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.GOLDEN_SWORD));
 		this.moveControl = new FlyingMoveControl(this, 10, true);
 	}
 
@@ -71,16 +75,65 @@ public class DragonEntity extends Monster {
 	@Override
 	protected void registerGoals() {
 		super.registerGoals();
-		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2, false) {
+		this.goalSelector.addGoal(1, new Goal() {
+			{
+				this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+			}
+
+			public boolean canUse() {
+				if (DragonEntity.this.getTarget() != null && !DragonEntity.this.getMoveControl().hasWanted()) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			@Override
+			public boolean canContinueToUse() {
+				return DragonEntity.this.getMoveControl().hasWanted() && DragonEntity.this.getTarget() != null
+						&& DragonEntity.this.getTarget().isAlive();
+			}
+
+			@Override
+			public void start() {
+				LivingEntity livingentity = DragonEntity.this.getTarget();
+				Vec3 vec3d = livingentity.getEyePosition(1);
+				DragonEntity.this.moveControl.setWantedPosition(vec3d.x, vec3d.y, vec3d.z, 1);
+			}
+
+			@Override
+			public void tick() {
+				LivingEntity livingentity = DragonEntity.this.getTarget();
+				if (DragonEntity.this.getBoundingBox().intersects(livingentity.getBoundingBox())) {
+					DragonEntity.this.doHurtTarget(livingentity);
+				} else {
+					double d0 = DragonEntity.this.distanceToSqr(livingentity);
+					if (d0 < 16) {
+						Vec3 vec3d = livingentity.getEyePosition(1);
+						DragonEntity.this.moveControl.setWantedPosition(vec3d.x, vec3d.y, vec3d.z, 1);
+					}
+				}
+			}
+		});
+		this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.8, 20) {
+			@Override
+			protected Vec3 getPosition() {
+				RandomSource random = DragonEntity.this.getRandom();
+				double dir_x = DragonEntity.this.getX() + ((random.nextFloat() * 2 - 1) * 16);
+				double dir_y = DragonEntity.this.getY() + ((random.nextFloat() * 2 - 1) * 16);
+				double dir_z = DragonEntity.this.getZ() + ((random.nextFloat() * 2 - 1) * 16);
+				return new Vec3(dir_x, dir_y, dir_z);
+			}
+		});
+		this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2, false) {
 			@Override
 			protected double getAttackReachSqr(LivingEntity entity) {
 				return (double) (4.0 + entity.getBbWidth() * entity.getBbWidth());
 			}
 		});
-		this.goalSelector.addGoal(2, new RandomStrollGoal(this, 1));
-		this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-		this.goalSelector.addGoal(5, new FloatGoal(this));
+		this.targetSelector.addGoal(5, new NearestAttackableTargetGoal(this, Player.class, false, false));
+		this.targetSelector.addGoal(6, new HurtByTargetGoal(this));
 	}
 
 	@Override
@@ -91,11 +144,6 @@ public class DragonEntity extends Monster {
 	@Override
 	public boolean removeWhenFarAway(double distanceToClosestPlayer) {
 		return false;
-	}
-
-	@Override
-	public double getPassengersRidingOffset() {
-		return super.getPassengersRidingOffset() + 3;
 	}
 
 	@Override
@@ -123,36 +171,26 @@ public class DragonEntity extends Monster {
 	}
 
 	@Override
-	public void travel(Vec3 dir) {
-		Entity entity = this.getPassengers().isEmpty() ? null : (Entity) this.getPassengers().get(0);
-		if (this.isVehicle()) {
-			this.setYRot(entity.getYRot());
-			this.yRotO = this.getYRot();
-			this.setXRot(entity.getXRot() * 0.5F);
-			this.setRot(this.getYRot(), this.getXRot());
-			this.flyingSpeed = this.getSpeed() * 0.15F;
-			this.yBodyRot = entity.getYRot();
-			this.yHeadRot = entity.getYRot();
-			this.maxUpStep = 1.0F;
-			if (entity instanceof LivingEntity passenger) {
-				this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
-				float forward = passenger.zza;
-				float strafe = 0;
-				super.travel(new Vec3(strafe, 0, forward));
-			}
-			this.animationSpeedOld = this.animationSpeed;
-			double d1 = this.getX() - this.xo;
-			double d0 = this.getZ() - this.zo;
-			float f1 = (float) Math.sqrt(d1 * d1 + d0 * d0) * 4;
-			if (f1 > 1.0F)
-				f1 = 1.0F;
-			this.animationSpeed += (f1 - this.animationSpeed) * 0.4F;
-			this.animationPosition += this.animationSpeed;
-			return;
-		}
-		this.maxUpStep = 0.5F;
-		this.flyingSpeed = 0.02F;
-		super.travel(dir);
+	public boolean canChangeDimensions() {
+		return false;
+	}
+
+	@Override
+	public void startSeenByPlayer(ServerPlayer player) {
+		super.startSeenByPlayer(player);
+		this.bossInfo.addPlayer(player);
+	}
+
+	@Override
+	public void stopSeenByPlayer(ServerPlayer player) {
+		super.stopSeenByPlayer(player);
+		this.bossInfo.removePlayer(player);
+	}
+
+	@Override
+	public void customServerAiStep() {
+		super.customServerAiStep();
+		this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
 	}
 
 	@Override
@@ -169,12 +207,12 @@ public class DragonEntity extends Monster {
 
 	public static AttributeSupplier.Builder createAttributes() {
 		AttributeSupplier.Builder builder = Mob.createMobAttributes();
-		builder = builder.add(Attributes.MOVEMENT_SPEED, 0.3);
+		builder = builder.add(Attributes.MOVEMENT_SPEED, 0.5);
 		builder = builder.add(Attributes.MAX_HEALTH, 10);
 		builder = builder.add(Attributes.ARMOR, 0);
 		builder = builder.add(Attributes.ATTACK_DAMAGE, 3);
 		builder = builder.add(Attributes.FOLLOW_RANGE, 16);
-		builder = builder.add(Attributes.FLYING_SPEED, 0.3);
+		builder = builder.add(Attributes.FLYING_SPEED, 0.5);
 		return builder;
 	}
 }
