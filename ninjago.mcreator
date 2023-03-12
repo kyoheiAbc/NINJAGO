@@ -9,12 +9,12 @@
       "registry_name": "garmadon"
     },
     {
-      "name": "Dragon",
+      "name": "Robot",
       "type": "livingentity",
       "sortid": 2,
       "compiles": true,
       "locked_code": false,
-      "registry_name": "dragon"
+      "registry_name": "robot"
     }
   ],
   "variable_elements": [],
@@ -22,8 +22,8 @@
   "language_map": {
     "en_us": {
       "item.ninjago.garmadon_spawn_egg": "Garmadon Spawn Egg",
-      "item.ninjago.dragon_spawn_egg": "Dragon Spawn Egg",
-      "entity.ninjago.dragon": "Dragon",
+      "item.ninjago.robot_spawn_egg": "Robot Spawn Egg",
+      "entity.ninjago.robot": "Robot",
       "entity.ninjago.garmadon": "Garmadon"
     }
   },

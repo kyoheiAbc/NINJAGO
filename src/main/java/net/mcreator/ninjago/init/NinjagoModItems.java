@@ -18,6 +18,6 @@ public class NinjagoModItems {
 	public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, NinjagoMod.MODID);
 	public static final RegistryObject<Item> GARMADON = REGISTRY.register("garmadon_spawn_egg",
 			() -> new ForgeSpawnEggItem(NinjagoModEntities.GARMADON, -1, -1, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
-	public static final RegistryObject<Item> DRAGON = REGISTRY.register("dragon_spawn_egg",
-			() -> new ForgeSpawnEggItem(NinjagoModEntities.DRAGON, -1, -1, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+	public static final RegistryObject<Item> ROBOT = REGISTRY.register("robot_spawn_egg",
+			() -> new ForgeSpawnEggItem(NinjagoModEntities.ROBOT, -1, -1, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
 }

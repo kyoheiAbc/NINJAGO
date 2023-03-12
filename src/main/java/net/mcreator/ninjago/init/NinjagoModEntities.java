@@ -16,8 +16,8 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Entity;
 
+import net.mcreator.ninjago.entity.RobotEntity;
 import net.mcreator.ninjago.entity.GarmadonEntity;
-import net.mcreator.ninjago.entity.DragonEntity;
 import net.mcreator.ninjago.NinjagoMod;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -28,11 +28,11 @@ public class NinjagoModEntities {
 					.setUpdateInterval(3).setCustomClientFactory(GarmadonEntity::new)
 
 					.sized(0.6f, 1.8f));
-	public static final RegistryObject<EntityType<DragonEntity>> DRAGON = register("dragon",
-			EntityType.Builder.<DragonEntity>of(DragonEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64)
-					.setUpdateInterval(3).setCustomClientFactory(DragonEntity::new)
+	public static final RegistryObject<EntityType<RobotEntity>> ROBOT = register("robot",
+			EntityType.Builder.<RobotEntity>of(RobotEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64)
+					.setUpdateInterval(3).setCustomClientFactory(RobotEntity::new)
 
-					.sized(2f, 1f));
+					.sized(0.6f, 1.8f));
 
 	private static <T extends Entity> RegistryObject<EntityType<T>> register(String registryname, EntityType.Builder<T> entityTypeBuilder) {
 		return REGISTRY.register(registryname, () -> (EntityType<T>) entityTypeBuilder.build(registryname));
@@ -42,13 +42,13 @@ public class NinjagoModEntities {
 	public static void init(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
 			GarmadonEntity.init();
-			DragonEntity.init();
+			RobotEntity.init();
 		});
 	}
 
 	@SubscribeEvent
 	public static void registerAttributes(EntityAttributeCreationEvent event) {
 		event.put(GARMADON.get(), GarmadonEntity.createAttributes().build());
-		event.put(DRAGON.get(), DragonEntity.createAttributes().build());
+		event.put(ROBOT.get(), RobotEntity.createAttributes().build());
 	}
 }
