@@ -3,7 +3,6 @@ package net.mcreator.ninjago.entity;
 
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.network.PlayMessages;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent.Tick;
 import net.minecraftforge.network.NetworkHooks;
 
 import net.minecraft.world.level.Level;

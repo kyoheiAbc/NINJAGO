@@ -4,7 +4,7 @@
   "definition": {
     "mobName": "Garmadon",
     "mobLabel": "",
-    "mobModelName": "Biped",
+    "mobModelName": "ModelHumanoidModel",
     "mobModelTexture": "garmadon.png",
     "mobModelGlowTexture": "",
     "modelWidth": 0.6,
